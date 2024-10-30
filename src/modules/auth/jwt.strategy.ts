@@ -8,7 +8,7 @@ export class JwtStrategy extends PassportStrategy(Strategy){
         super({
             jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
             ignoreExpiration: false,
-            secretOrkey: "Micodigo secreto"
+            secretOrKey: "MI_CODIGO_SECRETO"
 
         })
     }
