@@ -13,6 +13,7 @@ export class ConfigService {
                 console.log(`.env.${process.env.NODE_ENV} no existe`)
                 process.exit(0)
             }
+            this.envConfig=parse(fs.readFileSync(envFilePath))
         // console.log("*********",envFilePath)
     }
     get(key: string):string{
