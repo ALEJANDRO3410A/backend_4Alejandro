@@ -2,10 +2,10 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@n
 import { CategoriaService } from './categoria.service';
 import { CreateCategoriaDto } from './dto/create-categoria.dto';
 import { UpdateCategoriaDto } from './dto/update-categoria.dto';
-import { ApiTags } from '@nestjs/swagger';
-import { JwtAuthGuard } from '../auth/jwt-auth.guard'
+import { ApiTags } from '@Nestjs/swagger';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
-@UseGuards(JwtAuthGuard)
+//@UseGuards(JwtAuthGuard)
 @ApiTags('categoria')
 @Controller('categoria')
 export class CategoriaController {
@@ -17,7 +17,7 @@ export class CategoriaController {
   }
 
   @Get()
-  @UseGuards(JwtAuthGuard)
+ 
   findAll() {
     return this.categoriaService.findAll();
   }
