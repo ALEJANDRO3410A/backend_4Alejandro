@@ -1,0 +1,18 @@
+### Listar producto
+GET http://localhost:3000/producto
+
+### Crear producto
+POST http://localhost:3000/producto
+Content-Type: application/json
+
+{
+    "nombre": "Computadora Gammer",
+    "precio": "500.20",
+    "stock":5,
+    "categoriaId":1
+}
+
+### GET http://localhost:3000/producto/back?sort=desc
+### GET http://localhost:3000/producto/back?page=1&q=mpu&sort=asc
+### Busqeuda por nombre
+GET http://localhost:3000/producto/back?page=1&q=mm&sort=asc

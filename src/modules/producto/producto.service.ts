@@ -1,26 +1,43 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateProductoDto } from './dto/create-producto.dto';
 import { UpdateProductoDto } from './dto/update-producto.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Producto } from './entities/producto.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class ProductoService {
-  create(createProductoDto: CreateProductoDto) {
-    return 'This action adds a new producto';
+  constructor(@InjectRepository(Producto) private productoRepository: Repository<Producto>) {}
+
+  queryBuilder(alias: string) {
+    return this.productoRepository.createQueryBuilder(alias);
   }
 
-  findAll() {
-    return `This action returns all producto`;
+  async create(createProductoDto: CreateProductoDto): Promise<Producto> {
+    const nuevoProducto = this.productoRepository.create(createProductoDto);
+    return await this.productoRepository.save(nuevoProducto);
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} producto`;
+  async findAll(): Promise<Producto[]> {
+    return await this.productoRepository.find();
   }
 
-  update(id: number, updateProductoDto: UpdateProductoDto) {
-    return `This action updates a #${id} producto`;
+  async findOne(id: number): Promise<Producto> {
+    const producto = await this.productoRepository.findOne({ where: { id } });
+    if (!producto) {
+      throw new NotFoundException(`Producto con ID ${id} no encontrado`);
+    }
+    return producto;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} producto`;
+  async update(id: number, updateProductoDto: UpdateProductoDto): Promise<Producto> {
+    const producto = await this.findOne(id);
+    Object.assign(producto, updateProductoDto);
+    return await this.productoRepository.save(producto);
+  }
+
+  async remove(id: number): Promise<void> {
+    const producto = await this.findOne(id);
+    await this.productoRepository.remove(producto);
   }
 }
